@@ -3,10 +3,10 @@ server:
 
 handsock:
   port: 5120 # 通信端口
-  host: 11.47.1.240 # 通信主机
-  origin: http://11.47.1.240:5173 # 跨域设置
+  host: 192.168.0.101 # 通信主机
+  origin: http://192.168.0.101:5173 # 跨域设置
   openapi: ... # 开放接口密钥 https://doc.handsock.xiaokolomi.cn/depoly/openapi.html
-  secretKey: yichen9247-44052 # 服务保护密钥（配置为16位长度的字符串）
+  secretKey: ... # 服务保护密钥（配置为16位长度的字符串）
 
 ai:
   url: https://api.ppinfra.com # AI接口

@@ -57,7 +57,7 @@ class TokenService @Autowired constructor(private val redisTemplate: RedisTempla
     }
 
     fun setScanTargetUser(qid: String, uid: String) {
-        redisTemplate.opsForValue()["handsock-scanTargetUser:$qid", uid, 45] = TimeUnit.DAYS
+        redisTemplate.opsForValue()["handsock-scanTargetUser:$qid", uid, 45] = TimeUnit.SECONDS
     }
 
     fun getScanTargetUser(qid: String): String? {
@@ -66,7 +66,7 @@ class TokenService @Autowired constructor(private val redisTemplate: RedisTempla
     }
 
     fun setOpenApiCache(type: String, address: String) {
-        redisTemplate.opsForValue()["handsock-openai-$type:$address", "ok", 3] = TimeUnit.DAYS
+        redisTemplate.opsForValue()["handsock-openai-$type:$address", "ok", 3] = TimeUnit.SECONDS
     }
 
     fun getOpenApiCache(type: String, address: String): Boolean {

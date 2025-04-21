@@ -65,8 +65,7 @@ class AIChatHandler @Autowired constructor(
     }
 
     private fun sendEventWithResult(client: SocketIOClient, aiResult: Map<String, Any>) {
-        client.sendEvent(
-            "[AI:CHAT:CREATE:MESSAGE]",
+        client.sendEvent("[AI:CHAT:CREATE:MESSAGE]",
             HandUtils.handleResultByCode(200, object : HashMap<String?, Any?>() {
                 init {
                     put("event", "CREATE-MESSAGE")
