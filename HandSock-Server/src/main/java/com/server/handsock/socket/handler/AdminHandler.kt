@@ -5,7 +5,6 @@ import com.corundumstudio.socketio.SocketIOClient
 import com.corundumstudio.socketio.SocketIOServer
 import com.server.handsock.admin.service.*
 import com.server.handsock.common.data.AdminMannerModel
-import com.server.handsock.common.service.CommentService
 import com.server.handsock.common.service.ForumService
 import com.server.handsock.common.service.NoticeService
 import com.server.handsock.common.utils.HandUtils

@@ -6,6 +6,7 @@ import com.server.handsock.common.dao.NoticeDao
 import com.server.handsock.common.model.NoticeModel
 import com.server.handsock.common.utils.HandUtils
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
 @Service
@@ -17,7 +18,7 @@ class NoticeService @Autowired constructor(private val noticeDao: NoticeDao) {
             val pageObj = Page<NoticeModel>(page.toLong(), limit.toLong())
             val wrapper = QueryWrapper<NoticeModel>().orderByDesc("time")
             val queryResult = noticeDao.selectPage(pageObj, wrapper)
-            return HandUtils.handleResultByCode(200,  mapOf(
+            return HandUtils.handleResultByCode(HttpStatus.OK,  mapOf(
                 "total" to queryResult.total,
                 "items" to queryResult.records
             ), "获取成功")

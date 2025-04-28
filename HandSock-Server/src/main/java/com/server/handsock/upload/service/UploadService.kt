@@ -18,6 +18,7 @@ import com.server.handsock.service.TokenService
 import com.server.handsock.upload.man.UploadManage
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.multipart.MultipartFile
@@ -52,10 +53,10 @@ class UploadService @Autowired constructor(
             uidHeader = uidHeader,
             gidHeader = gidHeader,
             tokenHeader = tokenHeader
-        )) return HandUtils.handleResultByCode(400, null, "禁止访问")
+        )) return HandUtils.handleResultByCode(HttpStatus.FORBIDDEN, null, "禁止访问")
 
         if (!serverSystemService.getSystemKeyStatus("upload") && clientUserDao.selectOne(QueryWrapper<ClientUserModel>().eq("uid", uidHeader?.get(0)!!)).permission != UserAuthType.ADMIN_AUTHENTICATION) {
-            return HandUtils.handleResultByCode(402, null, "上传权限未开放")
+            return HandUtils.handleResultByCode(HttpStatus.FORBIDDEN, null, "上传权限未开放")
         }
 
         val time = HandUtils.encodeStringToMD5(HandUtils.formatTimeForString("yyyy-MM-dd-HH-mm-ss"))
@@ -74,12 +75,12 @@ class UploadService @Autowired constructor(
             UploadManage(HandUtils, IDGenerator).insertUploadFile(uploadModel, uid, fileName, filePath, time, type, file.size)
             if (uploadDao.insert(uploadModel) > 0) {
                 ConsoleUtils.printInfoLog("upload file $uid $filePath")
-                return HandUtils.handleResultByCode(200, object : HashMap<Any?, Any?>() {
+                return HandUtils.handleResultByCode(HttpStatus.OK, object : HashMap<Any?, Any?>() {
                     init {
                         put("path", filePath)
                     }
                 }, "上传成功")
-            } else return HandUtils.handleResultByCode(400, null, "上传失败")
+            } else return HandUtils.handleResultByCode(HttpStatus.INTERNAL_SERVER_ERROR, null, "上传失败")
         } catch (e: IOException) {
             return HandUtils.printErrorLog(e)
         }

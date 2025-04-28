@@ -8,6 +8,7 @@ import com.server.handsock.common.utils.HandUtils
 import com.server.handsock.service.AuthService
 import com.server.handsock.service.ClientService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
 @Service
@@ -52,7 +53,7 @@ class UpdateHandler @Autowired constructor(
                             uid = clientService.getRemoteUID(client)
                         )
                     }
-                    else -> HandUtils.handleResultByCode(400, null, "无效的编辑类型")
+                    else -> HandUtils.handleResultByCode(HttpStatus.NOT_ACCEPTABLE, null, "无效的编辑类型")
                 }
             } catch (e: Exception) {
                 HandUtils.printErrorLog(e)

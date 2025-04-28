@@ -7,6 +7,7 @@ import com.server.handsock.common.model.UploadModel
 import com.server.handsock.common.utils.ConsoleUtils
 import com.server.handsock.common.utils.HandUtils
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import java.io.File
 
@@ -16,7 +17,7 @@ class ServerUploadService @Autowired constructor(private val uploadDao: UploadDa
         val pageObj = Page<UploadModel>(page.toLong(), limit.toLong())
         val wrapper = QueryWrapper<UploadModel>().orderByDesc("time")
         val queryResult = uploadDao.selectPage(pageObj, wrapper)
-        return HandUtils.handleResultByCode(200,  mapOf(
+        return HandUtils.handleResultByCode(HttpStatus.OK,  mapOf(
             "total" to queryResult.total,
             "items" to queryResult.records
         ), "获取成功")
@@ -25,8 +26,8 @@ class ServerUploadService @Autowired constructor(private val uploadDao: UploadDa
     fun deleteUpload(fid: String): Map<String, Any> {
         deleteUploadFile(fid)
         return if (uploadDao.deleteById(fid) > 0) {
-            HandUtils.handleResultByCode(200, null, "删除成功")
-        } else HandUtils.handleResultByCode(400, null, "删除失败")
+            HandUtils.handleResultByCode(HttpStatus.OK, null, "删除成功")
+        } else HandUtils.handleResultByCode(HttpStatus.INTERNAL_SERVER_ERROR, null, "删除失败")
     }
 
     private fun deleteUploadFile(fid: String?) {

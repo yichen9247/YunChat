@@ -7,6 +7,7 @@ import com.server.handsock.common.utils.ConsoleUtils
 import com.server.handsock.common.utils.HandUtils
 import com.server.handsock.socket.eventer.OnlineEvent
 import com.server.handsock.socket.listener.*
+import org.springframework.http.HttpStatus
 
 class SocketIOListener(
     private val onlineEvent: OnlineEvent,
@@ -38,7 +39,7 @@ class SocketIOListener(
         }
 
         server.addEventListener("[CLIENT:PING]", Map::class.java) { _: SocketIOClient?, _: Map<*, *>?, ackSender: AckRequest ->
-            ackSender.sendAckData(HandUtils.handleResultByCode(200, null, "心跳正常"))
+            ackSender.sendAckData(HandUtils.handleResultByCode(HttpStatus.OK, null, "心跳正常"))
         }
 
         server.addEventListener("[ONLINE:LOGIN]", Map::class.java) { client: SocketIOClient?, data: Map<*, *>?, ackSender: AckRequest ->

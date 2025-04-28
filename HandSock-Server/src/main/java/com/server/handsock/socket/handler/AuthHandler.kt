@@ -13,6 +13,7 @@ import com.server.handsock.service.ClientService
 import com.server.handsock.service.TokenService
 import com.server.handsock.socket.eventer.OnlineEvent
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
 @Service
@@ -27,7 +28,7 @@ class AuthHandler @Autowired constructor(
     fun handleUserLogin(client: SocketIOClient, data: Map<String?, Any>, ackSender: AckRequest) {
         try {
             if (!onlineEvent.checkClient(HandUtils.encodeStringToMD5(client.sessionId.toString()))) {
-                ackSender.sendAckData(HandUtils.handleResultByCode(403, null, "禁止访问"))
+                ackSender.sendAckData(HandUtils.handleResultByCode(HttpStatus.FORBIDDEN, null, "禁止访问"))
             } else {
                 val username = data["username"]?.toString()
                 val password = data["password"]?.toString()
@@ -49,7 +50,7 @@ class AuthHandler @Autowired constructor(
     fun handleUserLogout(client: SocketIOClient, server: SocketIOServer?, ackSender: AckRequest) {
         ackSender.sendAckData(authService.validClientStatusBySocket(client) {
             if (!onlineEvent.checkClient(HandUtils.encodeStringToMD5(client.sessionId.toString()))) {
-                HandUtils.handleResultByCode(403, null, "禁止访问")
+                HandUtils.handleResultByCode(HttpStatus.FORBIDDEN, null, "禁止访问")
             } else {
                 onlineEvent.sendUserDisconnect(server!!, client)
                 ConsoleUtils.printInfoLog(
@@ -62,7 +63,7 @@ class AuthHandler @Autowired constructor(
     fun handleUserRegister(client: SocketIOClient, data: Map<String?, Any>, ackSender: AckRequest) {
         try {
             if (!onlineEvent.checkClient(HandUtils.encodeStringToMD5(client.sessionId.toString()))) {
-                ackSender.sendAckData(HandUtils.handleResultByCode(403, null, "禁止访问"))
+                ackSender.sendAckData(HandUtils.handleResultByCode(HttpStatus.FORBIDDEN, null, "禁止访问"))
             } else {
                 if (serverSystemService.getSystemKeyStatus("register")) {
                     val username = data["username"]?.toString()
@@ -76,7 +77,7 @@ class AuthHandler @Autowired constructor(
                             address = clientService.getRemoteAddress(client)
                         )
                     )
-                } else ackSender.sendAckData(HandUtils.handleResultByCode(402, null, "当前禁止注册"))
+                } else ackSender.sendAckData(HandUtils.handleResultByCode(HttpStatus.NOT_ACCEPTABLE, null, "当前禁止注册"))
             }
         } catch (e: Exception) {
             ackSender.sendAckData(HandUtils.printErrorLog(e))
@@ -86,7 +87,7 @@ class AuthHandler @Autowired constructor(
     fun handleUserScanLogin(client: SocketIOClient, ackSender: AckRequest) {
         try {
             if (!onlineEvent.checkClient(HandUtils.encodeStringToMD5(client.sessionId.toString()))) {
-                ackSender.sendAckData(HandUtils.handleResultByCode(403, null, "禁止访问"))
+                ackSender.sendAckData(HandUtils.handleResultByCode(HttpStatus.FORBIDDEN, null, "禁止访问"))
             } else {
                 val qid = IDGenerator.generateUniqueId()
                 val content = mapOf(
@@ -96,7 +97,7 @@ class AuthHandler @Autowired constructor(
                 )
                 tokenService.setScanStatus(qid, 0)
                 /*QrcodeUtils.generateQrcode(content.toString())*/
-                ackSender.sendAckData(HandUtils.handleResultByCode(200, content, "获取成功"))
+                ackSender.sendAckData(HandUtils.handleResultByCode(HttpStatus.OK, content, "获取成功"))
             }
         } catch (e: Exception) {
             ackSender.sendAckData(HandUtils.printErrorLog(e))
@@ -106,7 +107,7 @@ class AuthHandler @Autowired constructor(
     fun handleGetScanLoginStatus(client: SocketIOClient, data: Map<String?, Any>, ackSender: AckRequest) {
         try {
             if (!onlineEvent.checkClient(HandUtils.encodeStringToMD5(client.sessionId.toString()))) {
-                ackSender.sendAckData(HandUtils.handleResultByCode(403, null, "禁止访问"))
+                ackSender.sendAckData(HandUtils.handleResultByCode(HttpStatus.FORBIDDEN, null, "禁止访问"))
             } else {
                 val qid = data["qid"]?.toString()
                 ackSender.sendAckData(

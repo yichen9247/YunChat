@@ -2,6 +2,14 @@ package com.server.handsock.common.utils
 
 import com.corundumstudio.socketio.SocketIOClient
 import com.corundumstudio.socketio.SocketIOServer
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.server.handsock.common.data.ResultModel
+import jakarta.servlet.http.HttpServletRequest
+import org.springframework.http.HttpStatus
 import org.springframework.web.multipart.MultipartFile
 import java.security.MessageDigest
 import java.time.OffsetDateTime
@@ -18,12 +26,12 @@ object HandUtils {
     private const val PASSWORD_PATTERN = "^[a-zA-Z0-9_@#$%^&*!-]{6,18}$"
 
     fun printParamError(): Map<String, Any> {
-        return handleResultByCode(400, null, "参数有错误")
+        return handleResultByCode(HttpStatus.NOT_ACCEPTABLE, null, "参数有错误")
     }
 
     fun printErrorLog(e: Exception): Map<String, Any> {
         ConsoleUtils.printErrorLog(e)
-        return handleResultByCode(500, null, "服务端异常")
+        return handleResultByCode(HttpStatus.INTERNAL_SERVER_ERROR, null, "服务端异常")
     }
 
     fun isValidUsername(username: String): Boolean {
@@ -48,12 +56,13 @@ object HandUtils {
         } else String.format("%.1fGB", bytes / (1024.0 * 1024 * 1024))
     }
 
-    fun handleResultByCode(code: Int, data: Any?, message: String): Map<String, Any> {
-        val result: MutableMap<String, Any> = HashMap()
-        result["code"] = code
-        result["message"] = message
-        if (data != null) result["data"] = data
-        return result
+    fun handleResultByCode(status: HttpStatus, data: Any?, message: String): Map<String, Any> {
+        val result = ResultModel(
+            data = data,
+            code = status.value(),
+            message = message
+        )
+        return objectMapper.convertValue(result, object : TypeReference<Map<String, Any>>() {})
     }
 
     fun formatTimeForString(pattern: String?): String {
@@ -122,5 +131,31 @@ object HandUtils {
         val decodedBytes = Base64.getDecoder().decode(encrypted)
         val decryptedBytes = cipher.doFinal(decodedBytes)
         return String(decryptedBytes)
+    }
+
+    fun getHttpClientIp(request: HttpServletRequest): String {
+        var ip: String? = request.getHeader("X-Forwarded-For")
+        if (ip.isNullOrBlank() || "unknown".equals(ip, ignoreCase = true)) {
+            ip = request.getHeader("Proxy-Client-IP")
+        }
+        if (ip.isNullOrBlank() || "unknown".equals(ip, ignoreCase = true)) {
+            ip = request.getHeader("WL-Proxy-Client-IP")
+        }
+        if (ip.isNullOrBlank() || "unknown".equals(ip, ignoreCase = true)) {
+            ip = request.getHeader("HTTP_CLIENT_IP")
+        }
+        if (ip.isNullOrBlank() || "unknown".equals(ip, ignoreCase = true)) {
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR")
+        }
+        if (ip.isNullOrBlank() || "unknown".equals(ip, ignoreCase = true)) {
+            ip = request.remoteAddr
+        }
+        return ip?.split(",")?.firstOrNull()?.trim() ?: "unknown"
+    }
+
+    private val objectMapper = ObjectMapper().apply {
+        registerModule(JavaTimeModule())
+        setSerializationInclusion(JsonInclude.Include.NON_NULL)
+        disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
     }
 }

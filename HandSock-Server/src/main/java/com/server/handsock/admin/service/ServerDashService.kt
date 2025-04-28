@@ -10,6 +10,7 @@ import com.server.handsock.common.utils.HandUtils
 import com.server.handsock.common.utils.SystemUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.i18n.LocaleContextHolder
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import oshi.SystemInfo
 import java.io.IOException
@@ -46,7 +47,7 @@ class ServerDashService @Autowired constructor(
                 result["todayRegUser"] = todayRegUser
                 result["todayChatTotal"] = todayChatTotal
                 result["systemOsInfo"] = systemOsInfo
-                return HandUtils.handleResultByCode(200, result, "获取成功")
+                return HandUtils.handleResultByCode(HttpStatus.OK, result, "获取成功")
             } catch (e: Exception) {
                 return HandUtils.printErrorLog(e)
             }

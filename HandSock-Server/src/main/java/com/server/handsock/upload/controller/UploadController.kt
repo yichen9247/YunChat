@@ -38,8 +38,8 @@ class UploadController @Autowired constructor(
 
     @Throws(IOException::class)
     private fun uploadFile(entity: HttpEntity<String>, file: MultipartFile, type: String): Map<String, Any> {
-        if (!HandUtils.checkImageValidExtension(file) && (type == "avatar" || "images" == type)) return HandUtils.handleResultByCode(400, null, "不支持的文件类型")
-        if (file.isEmpty) return HandUtils.handleResultByCode(400, null, "禁止上传空文件")
+        if (!HandUtils.checkImageValidExtension(file) && (type == "avatar" || "images" == type)) return HandUtils.handleResultByCode(HttpStatus.NOT_ACCEPTABLE, null, "不支持的文件类型")
+        if (file.isEmpty) return HandUtils.handleResultByCode(HttpStatus.NOT_ACCEPTABLE, null, "禁止上传空文件")
         return uploadService.clientUploadFile(
             file = file,
             type = type,

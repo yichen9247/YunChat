@@ -7,6 +7,7 @@ import com.server.handsock.common.utils.HandUtils
 import com.server.handsock.service.AuthService
 import com.server.handsock.service.ClientService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
 @Service
@@ -17,7 +18,7 @@ class ClientHandler @Autowired constructor(
 ) {
     fun handleClientInit(client: SocketIOClient, ackRequest: AckRequest) {
         ackRequest.sendAckData(authService.validClientStatusBySocket(client) {
-            HandUtils.handleResultByCode(200, clientUserService.queryUserInfo(clientService.getRemoteUID(client)), "获取成功")
+            HandUtils.handleResultByCode(HttpStatus.OK, clientUserService.queryUserInfo(clientService.getRemoteUID(client)), "获取成功")
         })
     }
 }

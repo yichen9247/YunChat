@@ -12,6 +12,7 @@ import com.server.handsock.common.utils.HandUtils
 import com.server.handsock.common.utils.IDGenerator
 import com.server.handsock.service.TokenService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
 @Service
@@ -25,7 +26,7 @@ open class ClientUserService @Autowired constructor(
     }
 
     fun queryAllUser(): Map<String, Any> {
-        return HandUtils.handleResultByCode(200, clientUserDao.selectList(null), "获取成功")
+        return HandUtils.handleResultByCode(HttpStatus.OK, clientUserDao.selectList(null), "获取成功")
     }
 
     fun robotInnerStatus(): ClientUserModel {
@@ -36,16 +37,16 @@ open class ClientUserService @Autowired constructor(
     fun getUserInfo(uid: Long): Map<String, Any> {
         val selectResult = clientUserDao.selectOne(QueryWrapper<ClientUserModel>().eq("uid", uid))
         return if (selectResult != null) {
-            HandUtils.handleResultByCode(200, selectResult, "获取成功")
-        } else HandUtils.handleResultByCode(404, null, "用户不存在")
+            HandUtils.handleResultByCode(HttpStatus.OK, selectResult, "获取成功")
+        } else HandUtils.handleResultByCode(HttpStatus.NOT_ACCEPTABLE, null, "用户不存在")
     }
 
     fun getUserBind(uid: Long): Map<String, Any> {
         val selectResult = serverUserDao.selectOne(QueryWrapper<ServerUserModel>().eq("uid", uid))
         return if (selectResult == null) {
-            HandUtils.handleResultByCode(409, null, "未查询到用户")
+            HandUtils.handleResultByCode(HttpStatus.NOT_ACCEPTABLE, null, "未查询到用户")
         } else {
-            HandUtils.handleResultByCode(200, mapOf(
+            HandUtils.handleResultByCode(HttpStatus.OK, mapOf(
                 "qq" to (selectResult.qqId != null),
                 "wechat" to false
             ), "获取成功")
@@ -54,12 +55,12 @@ open class ClientUserService @Autowired constructor(
 
     fun bindUserWithQQ(uid: Long, qqId: String): Map<String, Any> {
         val bindSelect = serverUserDao.selectOne(QueryWrapper<ServerUserModel>().eq("qq_id", qqId))
-        if (bindSelect != null) return HandUtils.handleResultByCode(400, null, "该QQ号已被其它账号绑定")
+        if (bindSelect != null) return HandUtils.handleResultByCode(HttpStatus.NOT_ACCEPTABLE, null, "该QQ号已被其它账号绑定")
         val serverUserModel = ServerUserModel()
         val result = ClientUserManage().updateQQId(serverUserModel, uid, qqId)
         return if (serverUserDao.updateById(serverUserModel) > 0) {
-            HandUtils.handleResultByCode(200, result, "绑定成功")
-        } else HandUtils.handleResultByCode(400, result, "绑定失败")
+            HandUtils.handleResultByCode(HttpStatus.OK, result, "绑定成功")
+        } else HandUtils.handleResultByCode(HttpStatus.INTERNAL_SERVER_ERROR, result, "绑定失败")
     }
 
     fun setUserAiAuthorization(uid: Long?, status: Boolean): Boolean {
@@ -77,7 +78,7 @@ open class ClientUserService @Autowired constructor(
     fun loginUser(username: String, password: String, address: String): Map<String, Any> {
         val selectResult = serverUserDao.selectOne(QueryWrapper<ServerUserModel>().eq("username", username))
         return if (selectResult == null || selectResult.password != HandUtils.encodeStringToMD5(password)) {
-            HandUtils.handleResultByCode(409, null, "账号或密码错误")
+            HandUtils.handleResultByCode(HttpStatus.NOT_ACCEPTABLE, null, "账号或密码错误")
         } else userLogin(
             address = address,
             username = username,
@@ -86,9 +87,9 @@ open class ClientUserService @Autowired constructor(
     }
 
     fun registerUser(username: String, password: String, address: String): Map<String, Any> {
-        if (HandUtils.isValidUsername(username) || HandUtils.isValidPassword(password)) return HandUtils.handleResultByCode(400, null, "输入格式不合规")
+        if (HandUtils.isValidUsername(username) || HandUtils.isValidPassword(password)) return HandUtils.handleResultByCode(HttpStatus.NOT_ACCEPTABLE, null, "输入格式不合规")
         if (serverUserDao.selectOne(QueryWrapper<ServerUserModel>().eq("username", username)) != null) {
-            return HandUtils.handleResultByCode(409, null, "用户名已存在")
+            return HandUtils.handleResultByCode(HttpStatus.NOT_ACCEPTABLE, null, "用户名已存在")
         } else {
             val uid = generateUniqueUid()
             val serverUserModel = ServerUserModel()
@@ -99,15 +100,15 @@ open class ClientUserService @Autowired constructor(
             if (serverUserDao.insert(serverUserModel) > 0) {
                 ConsoleUtils.printInfoLog("User Register $address $uid $token")
                 HandUtils.sendGlobalMessage(socketIOServer!!, "[RE:USER:ALL]", userinfo)
-                return HandUtils.handleResultByCode(200, result, "注册成功")
-            } else return HandUtils.handleResultByCode(407, null, "注册失败")
+                return HandUtils.handleResultByCode(HttpStatus.OK, result, "注册成功")
+            } else return HandUtils.handleResultByCode(HttpStatus.INTERNAL_SERVER_ERROR, null, "注册失败")
         }
     }
 
     private fun loginUserScan(username: String, address: String): Map<String, Any> {
         val selectResult = serverUserDao.selectOne(QueryWrapper<ServerUserModel>().eq("username", username))
         return if (selectResult == null) {
-            HandUtils.handleResultByCode(409, null, "未查询到用户")
+            HandUtils.handleResultByCode(HttpStatus.NOT_ACCEPTABLE, null, "未查询到用户")
         } else userLogin(
             address = address,
             username = username,
@@ -118,7 +119,7 @@ open class ClientUserService @Autowired constructor(
     fun loginUserWithQQ(qqId: String, address: String): Map<String, Any> {
         val selectResult = serverUserDao.selectOne(QueryWrapper<ServerUserModel>().eq("qq_id", qqId))
         return if (selectResult == null) {
-            HandUtils.handleResultByCode(409, null, "请先注册账号")
+            HandUtils.handleResultByCode(HttpStatus.NOT_ACCEPTABLE, null, "请先注册账号")
         } else userLogin(
             address = address,
             selectResult = selectResult,
@@ -127,17 +128,17 @@ open class ClientUserService @Autowired constructor(
     }
 
     fun editForNick(uid: Long, nick: String): Map<String, Any> {
-        if (nick.length > 10 || nick.length < 2) return HandUtils.handleResultByCode(400, null, "昵称长度不合规")
+        if (nick.length > 10 || nick.length < 2) return HandUtils.handleResultByCode(HttpStatus.NOT_ACCEPTABLE, null, "昵称长度不合规")
         val serverUserModel = ServerUserModel()
         val result = ClientUserManage().updateNick(serverUserModel, uid, nick)
         if (serverUserDao.updateById(serverUserModel) > 0) {
             HandUtils.sendGlobalMessage(
                 event = "[RE:USER:NICK]",
                 server = socketIOServer!!,
-                content = HandUtils.handleResultByCode(200, result, "修改昵称成功")
+                content = HandUtils.handleResultByCode(HttpStatus.OK, result, "修改昵称成功")
             )
-            return HandUtils.handleResultByCode(200, result, "修改昵称成功")
-        } else return HandUtils.handleResultByCode(400, result, "修改昵称失败")
+            return HandUtils.handleResultByCode(HttpStatus.OK, result, "修改昵称成功")
+        } else return HandUtils.handleResultByCode(HttpStatus.INTERNAL_SERVER_ERROR, result, "修改昵称失败")
     }
 
     fun editForAvatar(uid: Long, path: String): Map<String, Any> {
@@ -147,51 +148,51 @@ open class ClientUserService @Autowired constructor(
             HandUtils.sendGlobalMessage(
                 event = "[RE:USER:AVATAR]",
                 server = socketIOServer!!,
-                content = HandUtils.handleResultByCode(200, result, "修改头像成功")
+                content = HandUtils.handleResultByCode(HttpStatus.OK, result, "修改头像成功")
             )
-            return HandUtils.handleResultByCode(200, result, "修改头像成功")
-        } else return HandUtils.handleResultByCode(400, result, "修改头像失败")
+            return HandUtils.handleResultByCode(HttpStatus.OK, result, "修改头像成功")
+        } else return HandUtils.handleResultByCode(HttpStatus.INTERNAL_SERVER_ERROR, result, "修改头像失败")
     }
 
     fun editForUserName(uid: Long, username: String): Map<String, Any> {
-        if (HandUtils.isValidUsername(username)) return HandUtils.handleResultByCode(400, null, "账号格式不合规")
+        if (HandUtils.isValidUsername(username)) return HandUtils.handleResultByCode(HttpStatus.NOT_ACCEPTABLE, null, "账号格式不合规")
         val serverUserModel = ServerUserModel()
         val result = ClientUserManage().updateUserName(serverUserModel, uid, username)
         if (serverUserDao.updateById(serverUserModel) > 0) {
             HandUtils.sendGlobalMessage(
                 server = socketIOServer!!,
                 event = "[RE:USER:USERNAME]",
-                content = HandUtils.handleResultByCode(200, result, "修改用户名成功")
+                content = HandUtils.handleResultByCode(HttpStatus.OK, result, "修改用户名成功")
             )
-            return HandUtils.handleResultByCode(200, result, "修改账号成功")
-        } else return HandUtils.handleResultByCode(400, result, "修改账号失败")
+            return HandUtils.handleResultByCode(HttpStatus.OK, result, "修改账号成功")
+        } else return HandUtils.handleResultByCode(HttpStatus.INTERNAL_SERVER_ERROR, result, "修改账号失败")
     }
 
     fun editForPassword(uid: Long, password: String): Map<String, Any> {
-        if (HandUtils.isValidPassword(password)) return HandUtils.handleResultByCode(400, null, "密码格式不合规")
+        if (HandUtils.isValidPassword(password)) return HandUtils.handleResultByCode(HttpStatus.NOT_ACCEPTABLE, null, "密码格式不合规")
         val serverUserModel = ServerUserModel()
         ClientUserManage().updatePassword(serverUserModel, uid, HandUtils.encodeStringToMD5(password))
         return if (serverUserDao.updateById(serverUserModel) > 0) {
-            HandUtils.handleResultByCode(200, null, "修改密码成功")
-        } else HandUtils.handleResultByCode(400, null, "修改密码失败")
+            HandUtils.handleResultByCode(HttpStatus.OK, null, "修改密码成功")
+        } else HandUtils.handleResultByCode(HttpStatus.INTERNAL_SERVER_ERROR, null, "修改密码失败")
     }
 
     fun getUserQrcodeScanStatus(qid: String, address: String): Map<String, Any> {
         val status = tokenService.getScanStatus(qid)
-            ?: return HandUtils.handleResultByCode(401, null, "二维码已过期")
+            ?: return HandUtils.handleResultByCode(HttpStatus.UNAUTHORIZED, null, "二维码已过期")
         return when(status) {
-            "0" -> HandUtils.handleResultByCode(400, null, "等待扫码中")
+            "0" -> HandUtils.handleResultByCode(HttpStatus.BAD_REQUEST, null, "等待扫码中")
             "1" -> {
                 tokenService.removeScanStatus(qid)
                 val targetUser = tokenService.getScanTargetUser(qid)
-                    ?: return HandUtils.handleResultByCode(500, null, "服务器异常")
+                    ?: return HandUtils.handleResultByCode(HttpStatus.INTERNAL_SERVER_ERROR, null, "服务器异常")
                 val loginUser = clientUserDao.selectById(targetUser.toLong())
                 loginUserScan(
                     address = address,
                     username = loginUser.username
                 )
             }
-            else -> HandUtils.handleResultByCode(500, null, "服务器异常")
+            else -> HandUtils.handleResultByCode(HttpStatus.INTERNAL_SERVER_ERROR, null, "服务器异常")
         }
     }
 
@@ -207,6 +208,6 @@ open class ClientUserService @Autowired constructor(
         val uid = selectResult.uid
         val token = tokenService.generateUserToken(selectResult.uid, username)
         ConsoleUtils.printInfoLog("User Login $address $uid $token")
-        return HandUtils.handleResultByCode(200, java.util.Map.of("token", token, "userinfo", clientUserDao.selectOne(QueryWrapper<ClientUserModel>().eq("username", username))), "登录成功")
+        return HandUtils.handleResultByCode(HttpStatus.OK, java.util.Map.of("token", token, "userinfo", clientUserDao.selectOne(QueryWrapper<ClientUserModel>().eq("username", username))), "登录成功")
     }
 }

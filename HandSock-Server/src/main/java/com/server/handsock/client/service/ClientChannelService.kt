@@ -5,6 +5,7 @@ import com.server.handsock.common.dao.ChannelDao
 import com.server.handsock.common.model.ChannelModel
 import com.server.handsock.common.utils.HandUtils
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
 @Service
@@ -19,7 +20,7 @@ class ClientChannelService @Autowired constructor(private val channelDao: Channe
                 }
             })
         }
-        val result = HandUtils.handleResultByCode(200, channelModelList, "获取成功").apply {
+        val result = HandUtils.handleResultByCode(HttpStatus.OK, channelModelList, "获取成功").apply {
             "latest" to history
         }
         return result
@@ -30,8 +31,8 @@ class ClientChannelService @Autowired constructor(private val channelDao: Channe
             channelDao.selectOne(QueryWrapper<ChannelModel>().eq("home", 1))
         } else channelDao.selectOne(QueryWrapper<ChannelModel>().eq("gid", gid))
         return if (groupSelect == null) {
-            HandUtils.handleResultByCode(404, null, "未找到频道")
-        } else HandUtils.handleResultByCode(200, groupSelect, "获取成功")
+            HandUtils.handleResultByCode(HttpStatus.NOT_ACCEPTABLE, null, "未找到频道")
+        } else HandUtils.handleResultByCode(HttpStatus.OK, groupSelect, "获取成功")
     }
 
     fun getChanOpenStatus(gid: Long): Boolean {

@@ -15,6 +15,7 @@ import com.server.handsock.service.AuthService
 import com.server.handsock.service.ClientService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import java.util.*
@@ -42,7 +43,7 @@ class AIChatHandler @Autowired constructor(
                     val content = data.content?.let { HandUtils.stripHtmlTagsForString(it) }
                     val clientChatManage = ClientChatManage(HandUtils, ConsoleUtils, IDGenerator)
                     val userResult = clientChatManage.insertChatMessage(clientChannelDao, "text", clientService.getRemoteUID(client), clientService.getRemoteGID(client), clientService.getRemoteAddress(client), content)
-                    ackRequest.sendAckData(HandUtils.handleResultByCode(200, userResult, "请求成功"))
+                    ackRequest.sendAckData(HandUtils.handleResultByCode(HttpStatus.OK, userResult, "请求成功"))
 
                     Thread.sleep(800)
                     val robotUser = clientUserService.robotInnerStatus()
@@ -66,7 +67,7 @@ class AIChatHandler @Autowired constructor(
 
     private fun sendEventWithResult(client: SocketIOClient, aiResult: Map<String, Any>) {
         client.sendEvent("[AI:CHAT:CREATE:MESSAGE]",
-            HandUtils.handleResultByCode(200, object : HashMap<String?, Any?>() {
+            HandUtils.handleResultByCode(HttpStatus.OK, object : HashMap<String?, Any?>() {
                 init {
                     put("event", "CREATE-MESSAGE")
                     put("result", aiResult)
@@ -115,7 +116,7 @@ class AIChatHandler @Autowired constructor(
                 ConsoleUtils.printErrorLog(error)
                 client.sendEvent(
                     "[AI:CHAT:CREATE:MESSAGE]",
-                    HandUtils.handleResultByCode(200, object : HashMap<String?, Any?>() {
+                    HandUtils.handleResultByCode(HttpStatus.OK, object : HashMap<String?, Any?>() {
                         init {
                             put("event", "PUSH-STREAM")
                             put("eventId", sid)
@@ -140,7 +141,7 @@ class AIChatHandler @Autowired constructor(
             eventData["eventId"] = sid
             eventData["content"] = contentNode.asText()
             sendExecutor.execute {
-                client.sendEvent("[AI:CHAT:CREATE:MESSAGE]", HandUtils.handleResultByCode(200, eventData, "请求成功"))
+                client.sendEvent("[AI:CHAT:CREATE:MESSAGE]", HandUtils.handleResultByCode(HttpStatus.OK, eventData, "请求成功"))
             }
         } catch (e: Exception) {
             ConsoleUtils.printErrorLog(e)

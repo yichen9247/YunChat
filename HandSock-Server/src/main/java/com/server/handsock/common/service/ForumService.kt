@@ -5,6 +5,7 @@ import com.server.handsock.common.dao.ForumDao
 import com.server.handsock.common.model.ForumModel
 import com.server.handsock.common.utils.HandUtils
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
 @Service
@@ -15,7 +16,7 @@ class ForumService @Autowired constructor(private val forumDao: ForumDao) {
         try {
             val pageObj = Page<ForumModel>(page.toLong(), limit.toLong())
             val resultPage = forumDao.selectHierarchicalPosts(pageObj)
-            return HandUtils.handleResultByCode(200,  mapOf(
+            return HandUtils.handleResultByCode(HttpStatus.OK,  mapOf(
                 "total" to resultPage.total,
                 "items" to resultPage.records
             ), "获取成功")

@@ -16,8 +16,7 @@ import org.springframework.context.annotation.Lazy
 import kotlin.system.exitProcess
 
 @Configuration
-open class ServiceConfig
-@Autowired constructor(
+open class ServiceConfig @Autowired constructor(
     private val handProp: HandProp,
     private val onlineEvent: OnlineEvent,
     private val checkListener: CheckListener,

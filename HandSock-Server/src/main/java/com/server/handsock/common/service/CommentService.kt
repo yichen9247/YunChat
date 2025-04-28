@@ -5,6 +5,7 @@ import com.server.handsock.common.dao.CommentDao
 import com.server.handsock.common.model.CommentModel
 import com.server.handsock.common.utils.HandUtils
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
 @Service
@@ -15,7 +16,7 @@ class CommentService @Autowired constructor(private val commentDao: CommentDao) 
         try {
             val pageObj = Page<CommentModel>(page.toLong(), limit.toLong())
             val resultPage = commentDao.selectHierarchicalComments(pageObj, pid)
-            return HandUtils.handleResultByCode(200, mapOf(
+            return HandUtils.handleResultByCode(HttpStatus.OK, mapOf(
                 "total" to resultPage.total,
                 "items" to resultPage.records
             ), "获取成功")
