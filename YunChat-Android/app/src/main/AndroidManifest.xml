@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" package="com.android.yunchat">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+
+    <uses-feature
+        android:name="android.hardware.camera.any"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+
+    <application
+        tools:targetApi="34"
+        android:name=".YunChat"
+        android:allowBackup="true"
+        android:supportsRtl="true"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true"
+        android:theme="@style/Theme.YunChat"
+        android:screenOrientation="portrait"
+        android:enableOnBackInvokedCallback="true"
+        android:fullBackupContent="@xml/backup_rules"
+        android:allowNativeHeapPointerTagging="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        tools:ignore="DiscouragedApi,ExtraText,LockedOrientationActivity">
+
+        <!--通讯进程服务-->
+        <service
+            android:stopWithTask="false"
+            android:isolatedProcess="false"
+            tools:ignore="ForegroundServicePermission"
+            android:foregroundServiceType="connectedDevice"
+            android:name=".service.instance.SocketIOService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <!--用户登录页-->
+        <activity
+            android:exported="true"
+            android:name=".activity.LoginActivity"
+            android:theme="@style/Theme.App.SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--管理后台页-->
+        <activity
+            android:exported="true"
+            android:name=".activity.AdminActivity">
+        </activity>
+
+        <!--软件关于页-->
+        <activity
+            android:exported="true"
+            android:name=".activity.AboutActivity">
+        </activity>
+
+        <!--软件设置页-->
+        <activity
+            android:exported="true"
+            android:name=".activity.SettingActivity">
+        </activity>
+
+        <!--软件公告页-->
+        <activity
+            android:exported="true"
+            android:name=".activity.NoticeActivity">
+        </activity>
+
+        <!--隐私政策页-->
+        <activity
+            android:exported="true"
+            android:name=".activity.PrivacyActivity">
+        </activity>
+
+        <!--软件的首页-->
+        <activity
+            android:exported="true"
+            android:name=".activity.MainActivity">
+        </activity>
+
+        <!--搜索结果页-->
+        <activity
+            android:exported="true"
+            android:name=".activity.SearchActivity">
+        </activity>
+
+        <!--软件聊天页-->
+        <activity
+            android:exported="true"
+            android:name=".activity.ChatActivity"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
+
+        <!--智能聊天页-->
+        <activity
+            android:exported="true"
+            android:name=".activity.AgentActivity"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
+
+        <!--用户信息页-->
+        <activity
+            android:exported="true"
+            android:name=".activity.UserActivity">
+        </activity>
+
+        <!--通知设置页-->
+        <activity
+            android:exported="true"
+            android:name=".activity.VoiceActivity">
+        </activity>
+
+        <!--腾讯登录页-->
+        <activity
+            android:exported="true"
+            android:noHistory="true"
+            android:launchMode="singleTask"
+            android:name="com.tencent.tauth.AuthActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent102763640" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            tools:ignore="DiscouragedApi"
+            android:screenOrientation="behind"
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+
+        <meta-data
+            android:name="com.huawei.android.opengles"
+            android:value="enable"/>
+
+        <meta-data
+            android:name="XIAOMI_GPU_OPTIMIZE"
+            android:value="true"/>
+
+        <meta-data
+            android:name="com.tencent.auth.server.setting"
+            android:value="102763640" />
+
+        <provider
+            android:exported="false"
+            android:grantUriPermissions="true"
+            android:authorities="${applicationId}.provider"
+            android:name="androidx.core.content.FileProvider">
+            <meta-data
+                android:resource="@xml/provider_paths"
+                android:name="android.support.FILE_PROVIDER_PATHS"/>
+        </provider>
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+    </application>
+
+    <queries>
+        <package android:name="com.tencent.tim" />
+        <package android:name="com.tencent.mobileqq" />
+        <package android:name="com.tencent.minihd.qq" />
+    </queries>
+</manifest>

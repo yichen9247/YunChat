@@ -1,0 +1,173 @@
+@dominColor: var(--dominColor);
+
+span.chat-message {
+    margin: 30px 0;
+    margin-bottom: 0;
+
+    &[data-type="clap"] {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    &:last-child {
+        margin-bottom: 0!important;
+    }
+
+    &[data-type="text"] {
+        think {
+            padding: 15px;
+            display: block;
+            font-size: 15px;
+            border-radius: 6px;
+            margin: 5px 0 10px;
+            background-color: #f1f1f1;
+        }
+    
+        think + br {
+            display: none;
+        }
+
+        div.message-content {
+            line-height: 28px;
+        }
+    }
+
+    &[data-type="text"], &[data-type="file"], &[data-type="image"], &[data-type="video"], &[data-type="invite"] {
+        margin-top: 30px;
+        text-align: justify;
+        word-break: break-all;
+
+        &:first-child {
+            margin-top: unset;
+        }
+
+        div.message-info {
+            height: auto;
+            display: flex;
+            min-height: auto;
+    
+            div.content-box {
+                display: flex;
+                flex-direction: column;
+    
+                div.user-info {
+                    height: 14px;
+                    display: flex;
+                    align-items: center;
+                    white-space: nowrap;
+    
+                    span.user-name {
+                        font-size: 15px;
+                        line-height: 100%;
+                        font-weight: bold;
+                        color: rgba(60, 60, 67, 0.65);
+                    }
+    
+                    span.user-time {
+                        opacity: 0.75;
+                        font-size: 15px;
+                        line-height: 100%;
+                        font-weight: bold;
+                        color: rgba(60, 60, 67, 0.65);
+                    }
+    
+                    span.user-time + span.user-name {
+                        margin-left: 10px;
+                    }
+    
+                    span.user-name + span.user-time {
+                        margin-left: 10px;
+                    }
+    
+                    span.user-tags + span.user-name {
+                        margin-left: 10px;
+                    }
+                }
+    
+                div.message-content {
+                    margin-top: 15px;
+                    overflow: hidden;
+                    padding: 10px 15px;
+                    border-radius: 6px;
+                    white-space: nowrap;
+                    word-break: break-all;
+                    text-overflow: ellipsis;
+                    color: rgba(60, 60, 67, 0.65);
+                }
+    
+                div.message-content {
+                    font-weight: 700;
+                    max-width: 420px;
+                    white-space: normal;
+                    display: inline-block;
+                    word-wrap: break-word;
+                    overflow-wrap: break-word;
+                    background-color: #ffffff;
+                }
+
+                &[data-self="true"] {
+                    div.message-content {
+                        color: #ffffff;
+                        background-color: @dominColor;
+                    }
+
+                    ::selection {
+                        color: @dominColor;
+                        background-color: #ffffff;
+                    }
+                }
+            }
+    
+            div.avatar-box {
+                width: 45px;
+                height: 45px;
+                min-width: 45px;
+                cursor: pointer;
+                color: #ffffff;
+                overflow: hidden;
+                border-radius: 50%;
+    
+                img.avatar {
+                    width: inherit;
+                    height: inherit;
+                }
+            }
+    
+            div.avatar-box + div.content-box {
+                margin-left: 15px;
+            }
+    
+            div.content-box + div.avatar-box {
+                margin-left: 15px;
+            }
+        }
+    }
+
+    &[data-type="file"], &[data-type="image"], &[data-type="video"], &[data-type="invite"] {
+        div.message-content {
+            border: unset!important;
+        }
+    }
+}
+
+div.main-container.container-mobile {
+    span.chat-message {
+        div.content-box {
+            max-width: calc(80% - 15px);
+        }
+
+        &[data-type="file"], &[data-type="image"], &[data-type="video"], &[data-type="invite"] {
+            div.content-box {
+                width: 100%;
+                
+                div.message-content {
+                    width: inherit;
+    
+                    div.content-box {
+                        width: calc(80% - 15px);
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,190 @@
+@dominColor: var(--dominColor);
+
+div.sidebar-container {
+    height: 100%;
+    display: flex;
+    overflow: hidden;
+    border-radius: 8px;
+    background-color: #ffffff;
+    min-width: clamp(75px, 75px, 75px);
+
+    &[data-route="home"] {
+        min-width: clamp(350px, 350px, 350px);
+    }
+
+    div.left-sidebar {
+        width: 65px;
+        height: 100%;
+        display: flex;
+        min-width: 75px;
+        flex-direction: column;
+
+        div.sidebar-top {
+            width: 100%;
+            height: 65px;
+            display: grid;
+            border-bottom: 1px solid #e3e8f7;
+
+            div.avatar-box {
+                width: 42px;
+                height: 42px;
+                margin: auto;
+                display: grid;
+                cursor: pointer;
+
+                div.avatar-container {
+                    width: 40px;
+                    height: 40px;
+                    margin: auto;
+                    overflow: hidden;
+                    border-radius: 50%;
+                    border: 3px solid #ffffff;
+
+                    img.avatar-info {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }
+        }
+
+        ul.menu-list {
+            width: 100%;
+            display: flex;
+            overflow: hidden;
+            align-items: center;
+            flex-direction: column;
+
+            li.menu-list-item {
+                width: 42px;
+                height: 42px;
+                display: grid;
+                cursor: pointer;
+                min-height: 42px;
+                margin-bottom: 15px;
+
+                svg {
+                    width: 26px;
+                    height: 26px;
+                    margin: auto;
+
+                    path {
+                        fill: #909399;
+                    }
+                }
+
+                &[data-active="true"] {
+                    svg path {
+                        fill: @dominColor;
+                    }
+                }
+            }
+        }
+
+        ul.menu-list-1 {
+            height: 50%;
+            margin: 15px 0;
+            overflow-y: scroll;
+        }
+
+        ul.menu-list-2 {
+            flex: 1;
+            justify-content: flex-end;
+        }
+    }
+
+    div.right-sidebar {
+        flex: 1;
+        height: 100%;
+        max-width: 275px;
+        flex-direction: column;
+        border-left: 1px solid #e3e8f7;
+
+        ul.group-list {
+            width: 100%;
+            padding: 0 20px;
+
+            li.group-list-item {
+                width: 100%;
+                height: 70px;
+                display: flex;
+                padding: 0 15px;
+                cursor: pointer;
+                margin-top: 20px;
+                border-radius: 6px;
+                align-items: center;
+                border: 1px solid #e3e8f7;
+
+                div.item-content {
+                    width: 100%;
+                    height: 40px;
+                    display: flex;
+                    overflow: hidden;
+                    position: relative;
+                    align-items: center;
+        
+                    .avatar {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                    }
+        
+                    div.info-content {
+                        height: 100%;
+                        display: flex;
+                        line-height: 1;
+                        overflow: hidden;
+                        margin-left: 10px;
+                        flex-direction: column;
+                        width: calc(100% - 50px);
+                        justify-content: space-between;
+        
+                        .item-name {
+                            font-size: 15px;
+                            color: #363636;
+                        }
+        
+                        .item-latest {
+                            font-size: 13px;
+                            overflow: hidden;
+                            color: #999999;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                            width: calc(100% - 40px);
+                        }
+                    }
+        
+                    div.message-number {
+                        top: 0;
+                        right: 0;
+                        height: 100%;
+                        display: flex;
+                        position: absolute;
+                        align-items: center;
+        
+                        span.number {
+                            width: 30px;
+                            height: 30px;
+                            display: flex;
+                            font-size: 12px;
+                            color: #363636;
+                            border-radius: 50%;
+                            align-items: center;
+                            justify-content: center;
+                            background-color: #F2F3F5;
+                        }
+                    }
+                }
+            }
+
+            li.group-list-item.item-active {
+                background-color: @dominColor;
+                border-color: @dominColor!important;
+
+                span {
+                    color: #ffffff!important;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,90 @@
+
+@dominColor: var(--dominColor);
+
+div.yun-user-center {
+    div.userinfo-box {
+        width: 100%;
+        padding: 25px 0 20px;
+        background-size: cover;
+        background-color: #F2F6FC;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-image: url("../../../assets/paper/bg-light.jpg");
+
+        div.avatar-box {
+            display: flex;
+            width: inherit;
+            justify-content: center;
+        }
+
+        div.el-upload {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+            border-radius: 50%;
+
+            img.avatar {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        ul.el-upload-list {
+            display: none;
+        }
+
+        div.nick-box {
+            height: 24px;
+            display: flex;
+            margin-top: 20px;
+            align-items: center;
+            justify-content: center;
+
+            span.nick {
+                font-size: 20px;
+                font-weight: 700;
+            }
+
+            i.edit-icon {
+                cursor: pointer;
+            }
+
+            div.button-sheet {
+                margin-left: 10px;
+            }
+        }
+    }
+
+    div.notice-box {
+        display: flex;
+        margin: 0 auto;
+        margin-top: 20px;
+        justify-content: center;
+    }
+
+    div.button-sheet {
+        width: 100%;
+        display: flex;
+        margin-top: 15px;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+
+        button.el-button {
+            width: 70%;
+            margin: 10px 0;
+
+            &:last-child {
+                margin-bottom: 5px;
+            }
+        }
+    }
+}
+
+div.user-center-dialog {
+    div.swal2-html-container {
+        padding: 0;
+    }
+}

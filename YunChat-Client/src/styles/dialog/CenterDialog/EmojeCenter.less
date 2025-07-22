@@ -1,0 +1,24 @@
+
+div.emoje-list {
+    display: flex;
+    flex-wrap: wrap;
+    word-wrap: break-word;
+    justify-content: center;
+
+    span.emoje-item {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        cursor: pointer;
+        font-size: 20px;
+        border-radius: 4px;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+        transition: background-color 0.5s;
+
+        &:hover {
+            background-color: #e9e9e9;
+        }
+    }
+}

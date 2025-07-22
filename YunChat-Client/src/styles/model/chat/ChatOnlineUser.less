@@ -1,0 +1,62 @@
+@dominColor: var(--dominColor);
+
+div.online-user-item {
+    width: 100%;
+    height: 45px;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    border-radius: 6px;
+    margin-bottom: 20px;
+
+    &:last-child {
+        margin-bottom: unset;
+    }
+
+    div.item-content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        border-radius: 6px;
+        background-color: #ffffff;
+
+        div.user-avatar {
+            height: 45px;
+            display: grid;
+            margin-left: 15px;
+
+            img.avatar {
+                width: 25px;
+                height: 25px;
+                margin: auto;
+                border-radius: 50%;
+                background-color: rgb(243.9, 244.2, 244.8);
+            }
+        }
+
+        div.content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+
+            span.user-nick {
+                margin-left: 10px;
+                color: rgba(60, 60, 67, 0.65);
+            }
+
+            span.user-radio {
+                width: 8px;
+                height: 8px;
+                right: 15px;
+                border-radius: 6px;
+                position: absolute;
+                background-color: #dddddd;
+                
+                &[data-status="true"] {
+                    background-color: @dominColor;
+                }
+            }
+        }
+    }
+}

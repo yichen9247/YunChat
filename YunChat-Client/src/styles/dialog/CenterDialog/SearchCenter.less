@@ -1,0 +1,85 @@
+div.search-group {
+    div.input-box {
+        height: 40px;
+        display: flex;
+
+        div.el-input__wrapper {
+            box-shadow: unset;
+            border: 1px solid #dddddd;
+            border-right: none;
+            border-radius: 6px 0 0 6px;
+        }
+    
+        button.el-button {
+            width: 120px;
+            height: 100%;
+            border-radius: 0 6px 6px 0;
+        }
+    }
+
+    ul.search-result {
+        max-height: 0px;
+        overflow: hidden;
+        overflow-y: scroll;
+        transition: 0.3s max-height;
+
+        &[data-result="false"] {
+            max-height: 35vh;
+        }
+
+        li.group-item {
+            width: 100%;
+            height: 75px;
+            display: flex;
+            padding: 0 15px;
+            margin-top: 25px;
+            border-radius: 6px;
+            align-items: center;
+            border: 1px solid #dddddd;
+
+            button {
+                margin-left: 10px;
+            }
+            
+            div.group-left {
+                flex: 1;
+                height: 40px;
+                display: flex;
+                
+                img.group-avatar {
+                    width: 40px;
+                    height: 100%;
+                    min-width: 40px;
+                    border-radius: 50%;
+                }
+
+                div.group-basic {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    margin-left: 10px;
+                    flex-direction: column;
+                    justify-content: space-between;
+
+                    p {
+                        width: 100%;
+                        line-height: 1;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                    }
+
+                    p.group-name {
+                        font-size: 15px;
+                        color: #363636;
+                    }
+
+                    p.group-desc {
+                        font-size: 15px;
+                        color: #999999;
+                    }
+                }
+            }
+        }
+    }
+}

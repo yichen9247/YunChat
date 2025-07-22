@@ -1,0 +1,36 @@
+@dominColor: var(--dominColor);
+
+div.chat-head-box {
+    justify-content: space-between;
+    
+    div.button-list {
+        display: flex;
+        align-items: center;
+
+        div.toggle-button {
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            margin-left: 20px;
+
+            svg path {
+                fill: @dominColor;
+            }
+        }
+    }
+}
+
+div.main-container.container-mobile {
+    div.chat-head-box {
+        height: 65px;
+        display: flex;
+        text-align: center;
+        border-bottom: unset;
+        justify-content: center;
+        
+        span.box-name {
+            font-size: 20px;
+            margin-left: unset;
+        }
+    }
+}

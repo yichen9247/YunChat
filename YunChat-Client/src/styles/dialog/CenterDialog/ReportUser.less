@@ -1,0 +1,46 @@
+
+@dominColor: var(--dominColor);
+
+div.report-user {
+    form.report-form {
+        display: flex;
+        justify-content: space-between;
+
+        div.flex-form {
+            width: 48.5%;
+            height: 275px;
+            display: flex;
+            flex-direction: column;
+
+            div.el-form-item {
+                flex-direction: column;
+
+                label {
+                    color: @dominColor;
+                    margin-bottom: 10px;
+                }
+            }
+
+            textarea {
+                padding: 10px 11px;
+                resize: none!important;
+            }
+
+            div.radio-group {
+                height: 100%;
+                display: flex;
+                overflow: scroll;
+                flex-wrap: nowrap;
+                overflow-y: scroll;
+                flex-direction: column;
+                align-items: flex-start;
+
+                label.el-radio {
+                    margin: 0;
+                    height: unset;
+                    min-height: 28px;
+                }
+            }
+        }
+    }
+}

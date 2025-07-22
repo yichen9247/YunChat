@@ -1,0 +1,152 @@
+@dominColor: var(--dominColor);
+
+div.admin-dash {
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    overflow-y: scroll;
+    flex-direction: column;
+
+    div.top-container {
+        display: flex;
+        width: inherit;
+        flex-flow: row wrap;
+        justify-content: space-between;
+
+        div.stat-card {
+            width: 23.5%;
+            height: 125px;
+            cursor: pointer;
+            position: relative;
+            padding: 15px 20px;
+            border-radius: 6px;
+            border: 1px solid #e3e8f7;
+
+            span.card-name {
+                font-size: 18px;
+                position: absolute;
+                color: rgba(60, 60, 67, 0.65);
+            }
+
+            div.statistic-nuumber {
+                bottom: 20px;
+                position: absolute;
+
+                span.el-statistic__number {
+                    font-size: 26px;
+                    font-weight: bold;
+                    color: @dominColor;
+                }
+            }
+
+            div.icon-box {
+                top: 50%;
+                right: 20px;
+                width: 48px;
+                height: 48px;
+                display: grid;
+                border-radius: 50%;
+                position: absolute;
+                transform: translateY(-50%);
+                background-color: rgba(245, 247, 250, 0.75);
+
+                svg {
+                    width: 50%;
+                    height: 50%;
+                    margin: auto;
+                    color: @dominColor;
+
+                    path {
+                        fill: @dominColor;
+                    }
+                }
+            }
+        }
+    }
+
+    div.info-container {
+        width: 100%;
+        display: flex;
+        margin-top: 25px;
+
+        div.info-card {
+            width: 49%;
+            height: 255px;
+            overflow: hidden;
+            overflow-y: scroll;
+            padding: 15px 20px;
+            border-radius: 6px;
+            border: 1px solid #e3e8f7;
+
+            &:last-child {
+                margin-left: auto;
+            }
+
+            table tr {
+                &:last-child {
+                    td {
+                        padding-bottom: unset!important;
+                    }
+                }
+            }
+
+            div.empty-box {
+                width: 100%;
+                display: flex;
+                color: #999999;
+                align-items: center;
+                justify-content: center;
+                height: calc(100% - 41.6px);
+            }
+
+            div.card-overview {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                color: rgba(60, 60, 67, 0.65);
+
+                div.info-line {
+                    font-size: 18px;
+                    white-space: nowrap;
+                }
+            }
+
+            div.card-update {
+                height: 100%;
+                font-size: 18px;
+                overflow: hidden;
+                overflow-y: scroll;
+                word-break: break-all;
+                color: rgba(60, 60, 67, 0.65);
+
+                p {
+                    margin-top: 15px;
+                    line-height: 32px;
+                }
+            }
+        }
+    }
+
+    div.dash-footer {
+        width: 100%;
+        height: 50px;
+        display: flex;
+        padding: 0 20px;
+        font-size: 15px;
+        min-height: 55px;
+        margin-top: 25px;
+        border-radius: 6px;
+        align-items: center;
+        border: 1px solid #e3e8f7;
+        color: rgba(60, 60, 67, 0.65);
+
+        div.right-box {
+            margin-left: auto;
+        }
+
+        div.box-content a {
+            font-size: 15px;
+        }
+    }
+}

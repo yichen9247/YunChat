@@ -1,0 +1,112 @@
+div.templete-message {
+    width: 250px;
+    display: grid;
+    line-height: 0;
+    cursor: pointer;
+    padding: 0!important;
+
+    div.el-image,video {
+        width: 100%;
+        overflow: hidden;
+        background-color: #f5f5f5;
+
+        div.el-image__error {
+            width: 100%;
+            height: 120px;
+        }
+    }
+
+    div.skeleton-box {
+        width: 100%;
+        height: 84px;
+        overflow: hidden;
+        border-radius: 6px;
+        background-color: #ffffff;
+    }
+
+    div.message-box {
+        width: 100%;
+        line-height: 28px;
+        padding: 12px 25px;
+        border-radius: 6px;
+
+        p.box-title {
+            font-size: 18px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        &[data-type="invite"] {
+            padding: 12px 15px;
+        }
+
+        div.invite-content {
+            height: 45px;
+            display: flex;
+            margin: 5px 0;
+
+            div.text-box {
+                flex: 1;
+                font-size: 14px;
+                line-height: 24px;
+
+                p.text {
+                    line-clamp: 2;
+                    overflow: hidden;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    text-overflow: ellipsis;
+                    -webkit-box-orient: vertical;
+                }
+            }
+
+            img.image {
+                width: 45px;
+                height: 45px;
+                margin-left: 15px;
+                border-radius: 6px;
+            }
+        }
+
+        div.message-content-box {
+            width: 100%;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            span.box-name {
+                font-size: 20px;
+                color: #666666;
+                margin-left: 10px;
+            }
+        }
+    }
+}
+
+div.content-box[data-self="true"] {
+    div.templete-message div.message-box {
+        div.icon-box {
+            background-color: unset;
+
+            svg {
+                path {
+                    fill: #ffffff!important;
+                }
+            }
+        }
+
+        div.message-content-box {
+            span {
+                color: #ffffff;
+            }
+        }
+    }
+}
+
+div.content-frame.frame-mobile {
+    div.message-box {
+        padding-left: 15px;
+    }
+}

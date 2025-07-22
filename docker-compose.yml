@@ -1,0 +1,77 @@
+services:
+  vue-app:
+    build:
+      context: .
+      target: client-run  # 前端构建阶段
+      args:
+        VITE_SERVER_IP: localhost:5120 # 后端地址
+        VITE_APP_SCAN_LOGIN: false # 是否开启扫码登录方式
+        VITE_APP_AUTO_SHOWIMAGE: false # 是否自动展开图片
+        VITE_SERVER_URL: http://localhost:8081 # 通信地址
+        VITE_APP_SECRET_KEY: yichen9247-44052 # 服务保护密钥（配置为16位长度的字符串）
+    ports:
+      - "8080:80"
+
+  springboot-app:
+    build:
+      context: .
+      target: server-run  # 后端构建阶段
+    hostname: YunChat-Linux
+    ports:
+      - "8081:8081"
+      - "5120:5120"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/yunchat # 数据库连接URL
+      SPRING_DATASOURCE_USERNAME: root # 数据库用户
+      SPRING_DATASOURCE_PASSWORD: yunchat123 # 数据库密码
+
+      SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE: 5MB # 文件上传最大大小
+      SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE: 5MB # 网络请求最大大小
+
+      YUNCHAT_PORT: 5120 # 通信端口
+      YUNCHAT_HOST: 0.0.0.0 # 通信主机（这项不必改）
+      YUNCHAT_ORIGIN: http://localhost:8080 # 跨域设置
+      YUNCHAT_OPENAPI: yichen9247-44052 # 开放接口密钥 https://doc.YunChat.xiaokolomi.cn/depoly/openapi.html
+      
+      YUNCHAT_STORAGE_ALI_BUCKET: handsock # 阿里云存储桶名称
+      YUNCHAT_STORAGE_ALI_ENDPOINT: oss-cn-chengdu.aliyuncs.com # 阿里云存储桶区域
+      YUNCHAT_STORAGE_ALI_SECRETID: 12345678 # 阿里云SecretId
+      YUNCHAT_STORAGE_ALI_SECRETKEY: 12345678 # 阿里云SecretKey
+
+      YUNCHAT_STORAGE_TENCENT_REGION: ap-chengdu # 腾讯云存储桶区域
+      YUNCHAT_STORAGE_TENCENT_BUCKET: handsock # 腾讯云存储桶名称
+      YUNCHAT_STORAGE_TENCENT_SECRETID: 12345678 # 腾讯云SecretId
+      YUNCHAT_STORAGE_TENCENT_SECRETKEY: 12345678 # 腾讯云SecretKey
+
+      YUNCHAT_SECRET_KEY: yichen9247-44052 # 服务保护密钥（配置为16位长度的字符串）
+      YUNCHAT_STORAGE_MOD: 0 # 存储模式 0:本地 1:腾讯云COS 2: 阿里云OSS
+    depends_on:
+      - mysql-db
+      - redis-cache
+      
+  mysql-db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: yunchat
+      MYSQL_ROOT_PASSWORD: yunchat123
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+
+  redis-cache:
+    image: redis:6.2
+    command: redis-server --bind 0.0.0.0 --appendonly yes  # 添加 --bind 0.0.0.0
+    ports:
+      - "6379:6379"
+    volumes:
+    - redis-data:/data
+
+volumes:
+  mysql-data:
+  redis-data:

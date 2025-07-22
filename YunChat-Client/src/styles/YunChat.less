@@ -1,0 +1,42 @@
+@dominColor: var(--dominColor);
+
+div.main-container {
+    width: 80%;
+    height: 85%;
+    margin: auto;
+    display: flex;
+    max-width: 100vw;
+    min-height: 550px;
+    position: relative;
+    border-radius: 8px;
+    padding: 25px 20px 25px 20px;
+
+    div.yun-head-box {
+        color: #363636;
+        background-color: #ffffff;
+        border-bottom: 1px solid #e3e8f7;
+    }
+
+    .yun-shadow {
+        box-shadow: 0px 2.5px 5px 0px rgba(17, 58, 93, 0.1);
+    }
+
+    div.yun-head-box {
+        width: 100%;
+        height: 65px;
+        display: flex;
+        padding: 0 20px;
+        font-size: 18px;
+        overflow: hidden;
+        min-height: 65px;
+        white-space: nowrap;
+        align-items: center;
+    }
+
+    &.container-mobile {
+        width: 100%;
+        height: 100%;
+        padding: unset;
+        border-radius: unset;
+    }
+}

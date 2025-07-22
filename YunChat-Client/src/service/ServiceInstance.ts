@@ -1,0 +1,25 @@
+import { SocketHandler } from "@/socket/SocketHandler";
+import { SocketIOClient } from "@/socket/SocketIOClient";
+import { UserServiceImpl } from "./impl/UserServiceImpl";
+import { AdminServiceImpl } from "./impl/AdminServiceImpl";
+import { GroupServiceImpl } from "./impl/GroupServiceImpl";
+import { DeviceServiceImpl } from "./impl/DeviceServiceImpl";
+import { ClientServiceImpl } from "./impl/ClientServiceImpl";
+import { SocketServiceImpl } from "./impl/SocketServiceImpl";
+import { MessageServiceImpl } from "./impl/MessageServiceImpl";
+import { RequestServiceImpl } from "./impl/RequestServuceImpl";
+import { EncryptServiceImpl } from "./impl/EncryptServiceImpl";
+import { NoticeServiceImpl } from "./impl/NoticeServiceImpl";
+
+export const socketHandlerInstance = new SocketHandler();
+export const userServiceInstance = new UserServiceImpl();
+export const socketIOClientInstance = new SocketIOClient();
+export const adminServiceInstance = new AdminServiceImpl();
+export const groupServiceInstance = new GroupServiceImpl();
+export const clientServiceInstance = new ClientServiceImpl();
+export const deviceServiceInstance = new DeviceServiceImpl();
+export const noticeServiceInstance = new NoticeServiceImpl();
+export const socketServiceInstance = new SocketServiceImpl();
+export const encryptServiceInstance = new EncryptServiceImpl();
+export const messageServiceInstance = new MessageServiceImpl();
+export const requestServiceInstance = new RequestServiceImpl();

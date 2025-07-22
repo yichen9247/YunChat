@@ -1,0 +1,148 @@
+[versions]
+# 核心库
+agp = "8.7.0"
+androidxMultidexVersion = "2.0.1"
+kotlin = "2.0.0"
+datastore = "1.1.1"
+core-ktx = "1.13.1"
+compose-bom = "2024.09.03"
+activity-compose = "1.9.2"
+compose-compiler = "1.5.15"
+lifecycle-runtime-ktx = "2.8.6"
+
+# 官方库
+room = "2.6.1"
+camerax = "1.3.4"
+media3Ui = "1.2.0"
+ksp = "1.9.20-1.0.14"
+splashscreen = "1.0.1"
+coil-compose = "2.6.0"
+android-tools = "31.7.0"
+lifecycle-common = "2.6.2"
+runtime-livedata = "1.7.0"
+lifecycle-service = "2.6.2"
+biometric = "1.2.0-alpha05"
+room-gradle-plugin = "2.6.1"
+navigation-compose = "2.8.2"
+material-icons-extended = "1.7.3"
+accompanist-permissions = "0.34.0"
+androidx-multidex-multidex2 = "2.0.1"
+
+# 测试相关
+junit = "4.13.2"
+espresso-core = "3.6.1"
+androidx-test-ext-junit = "1.2.1"
+
+# 三方库
+mmkv = "2.0.2"
+gson = "2.10.1"
+lunar = "1.6.3"
+pinyin = "0.4.0"
+toasty = "1.5.2"
+mlkit = "17.3.0"
+okhttp = "4.12.0"
+xutilSub = "2.0.0"
+retrofit = "2.11.0"
+xutilCore = "2.0.0"
+zxing-core = "3.5.3"
+app-updater = "1.2.0"
+reorderable = "0.9.6"
+socketIoClient = "2.0.0"
+materialIconsCore = "1.7.7"
+kotlinx-serialization-json = "1.3.0"
+jetbrainsKotlinJvm = "1.9.24"
+appcompat = "1.7.0"
+material = "1.12.0"
+
+[libraries]
+# 核心库
+androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "media3Ui" }
+androidx-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "media3Ui" }
+androidx-multidex-multidex2 = { module = "androidx.multidex:multidex", version.ref = "androidxMultidexVersion" }
+ui = { module = "androidx.compose.ui:ui" }
+ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
+core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" } # 支持kotlin
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" } # 统一管理compose相关依赖版本
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" } # 支持在activity中嵌入compose组件
+lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" } # 组件支持生命周期管理
+
+# 官方库
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" } # room支持kotlin
+datastore-core = { module = "androidx.datastore:datastore-core", version.ref = "datastore" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" } # 简化数据库访问
+material3 = { module = "androidx.compose.material3:material3" } # material3风格的官方组件库及主题
+camera-view = { module = "androidx.camera:camera-view", version.ref = "camerax" } # 相机视图容器
+biometric = { module = "androidx.biometric:biometric", version.ref = "biometric" } # 简化生物认证
+camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "camerax" } # 简化相机调用
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "camerax" } # 相机生命周期管理
+splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" } # 启动页
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" } # room支持根据注解自动生成对应实现
+navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation-compose" } # 支持组件间导航
+accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist-permissions" } # 简化权限请求
+material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "material-icons-extended" } # icon扩展库
+lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle-runtime-ktx" } # 支持viewmodel
+
+lifecycle-common = { group = "androidx.lifecycle", name = "lifecycle-common", version.ref = "lifecycle-common" }
+lifecycle-service = { group = "androidx.lifecycle", name = "lifecycle-service", version.ref = "lifecycle-service" }
+runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtime-livedata" }
+
+# 调试相关
+ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" } # 支持compose组件预览
+
+# 测试相关
+junit = { module = "junit:junit", version.ref = "junit" }
+ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso-core" }
+androidx-test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-test-ext-junit" }
+
+# 三方库
+lunar = { module = "cn.6tail:lunar", version.ref = "lunar" } # 计算农历日期与节日
+pinyin = { module = "com.github.houbb:pinyin", version.ref = "pinyin" } # 汉字转拼音
+mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkv" } # 腾讯键对值存储
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" } # JSON解析器
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" } # 网络请求库
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" } # 网络请求库
+toasty = { group = "com.github.GrenderG", name = "Toasty", version.ref = "toasty" } # 自定义Toast
+amap = { module = "com.amap.api:3dmap-location-search", version = "latest.integration" } # 高德地图
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil-compose" } # 支持异步加载图片
+zxing-core = { module = "com.google.zxing:core", version.ref = "zxing-core" } # 二维码生成/识别（效率低）
+xutil-sub = { group = "com.github.xuexiangjys.XUtil", name = "xutil-sub", version.ref = "xutilSub" } # 工具库
+app-updater = { module = "com.github.jenly1314.AppUpdater:app-updater", version.ref = "app-updater" } # 更新库
+xutil-core = { group = "com.github.xuexiangjys.XUtil", name = "xutil-core", version.ref = "xutilCore" } # 工具库
+socket-io-client = { group = "io.socket", name = "socket.io-client", version.ref = "socketIoClient" } # SocketIO库
+reorderable = { module = "org.burnoutcrew.composereorderable:reorderable", version.ref = "reorderable" } # 支持拖拽排序
+mlkit-barcode-scanning = { module = "com.google.mlkit:barcode-scanning", version.ref = "mlkit" } # 二维码识别（基于机器学习）
+retrofit-converter = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" } # 支持网络响应结果转为指定类对象
+material-icons-core = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "materialIconsCore" } # Material图标库
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" } # Json解析库
+
+# Dependencies of the included build-logic
+android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+android-tools-common = { group = "com.android.tools", name = "common", version.ref = "android-tools" }
+kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+room-gradle-plugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room-gradle-plugin" }
+ksp-gradle-plugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+[plugins]
+room = { id = "androidx.room", version.ref = "room" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+com-android-application = { id = "com.android.application", version.ref = "agp" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+
+# Plugins defined by this project
+weui-android-room = { id = "weui.android.room", version = "unspecified" }
+weui-android-compose-library = { id = "weui.android.compose.library", version = "unspecified" }
+weui-android-compose-application = { id = "weui.android.compose.application", version = "unspecified" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+
+[bundles]
+retrofit = ["retrofit", "retrofit-converter"]
+datastore = ["datastore-core", "datastore-preferences"]
+camerax = ["camera-camera2", "camera-lifecycle", "camera-view"]

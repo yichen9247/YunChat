@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.server.yunchat.builder.dao.GroupDao">
+    <resultMap id="ClientUserResultMap" type="com.server.yunchat.client.mod.ClientUserModel">
+        <id property="uid" column="uid"/>
+    </resultMap>
+
+    <resultMap id="ClientMessageResultMap" type="com.server.yunchat.builder.model.MessageModel">
+        <id property="sid" column="sid"/>
+    </resultMap>
+
+    <resultMap id="GroupResultMap" type="com.server.yunchat.builder.model.GroupModel">
+        <id column="gid" property="gid"/>
+        <collection property="member" ofType="com.server.yunchat.client.mod.ClientUserModel" select="getGroupMembers" column="gid"/>
+        <collection property="message" ofType="com.server.yunchat.builder.model.MessageModel" select="getLatestGroupMessage" column="{tar=gid}"/>
+    </resultMap>
+
+    <select id="getLatestGroupMessage" resultMap="ClientMessageResultMap">
+        SELECT * FROM yun_message WHERE obj = 0 AND tar = #{tar} ORDER BY time DESC LIMIT 1
+    </select>
+
+    <select id="getAllGroupList" resultMap="GroupResultMap">
+        SELECT g.*, g.gid AS obj FROM yun_group g ORDER BY g.gid LIMIT #{page}, #{limit}
+    </select>
+
+    <select id="searchGroupList" resultMap="GroupResultMap">
+        SELECT * FROM yun_group WHERE name LIKE CONCAT('%', #{name}, '%')
+    </select>
+
+    <select id="getGroupMembers" resultMap="ClientUserResultMap">
+        SELECT u.* FROM yun_user u INNER JOIN yun_member m ON u.uid = m.uid WHERE m.gid = #{gid}
+    </select>
+
+    <select id="getGroupList" resultMap="GroupResultMap">
+        SELECT g.* FROM yun_group g INNER JOIN yun_member m ON g.gid = m.gid WHERE m.uid = #{uid}
+    </select>
+
+    <select id="getGroupInfo" resultMap="GroupResultMap">
+        SELECT g.* FROM yun_group g WHERE g.gid = #{gid}
+    </select>
+
+    <select id="getIsUserInGroup" resultType="java.lang.Boolean">
+        SELECT COUNT(*) > 0 FROM yun_member WHERE gid = #{gid} AND uid = #{uid}
+    </select>
+</mapper>

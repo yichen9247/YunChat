@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">YunChat</string>
+    <string name="www_qq_qun">"https://qm.qq.com/q/AKdIXRHMBM"</string>
+    <string name="www_author_url">https://github.com/yichen9247</string>
+    <string name="update_option">检查到有新版本V%s可以更新，是否立即更新</string>
+    <string name="exit_group_tip">是否确认退出\"%s\"，此操作将无法逆转？</string>
+    <string name="exit_login_tip">确定要退出登录吗，退出后将回到登录界面？</string>
+    <string name="cache_option">应用程序缓存已占用空间%s，是否立即进行清理</string>
+    <string name="invite_message_tip">邀请你加入群聊 \"%s\"，进入可查看详情</string>
+    <string name="chat_notice_content">请勿关闭此通知，否则服务将无法正常运行</string>
+    <string name="reset_password_tip">暂不提供在线密码重置服务，请联系平台管理员</string>
+    <string name="battery_optimization">聊天服务需要关闭电池优化才能正常使用，否则会出现经常断开与服务器端的连接等情况，是否立即前往设置？</string>
+</resources>

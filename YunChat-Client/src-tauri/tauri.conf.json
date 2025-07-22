@@ -1,0 +1,39 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "productName": "YunChat",
+  "version": "2.3.2",
+  "identifier": "com.desktop.yunchat",
+  "build": {
+    "frontendDist": "../dist",
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:5173",
+    "beforeBuildCommand": "npm run build"
+  },
+  "app": {
+    "windows": [
+      {
+        "width": 1400,
+        "height": 800,
+        "center": true,
+        "shadow": false,
+        "minWidth": 1000,
+        "minHeight": 600,
+        "devtools": false,
+        "resizable": true,
+        "fullscreen": false,
+        "useHttpsScheme": true,
+        "title": "YunChat Desktop"
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/favicon.ico"
+    ]
+  }
+}
