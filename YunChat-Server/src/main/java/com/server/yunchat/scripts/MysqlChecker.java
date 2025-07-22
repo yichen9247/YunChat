@@ -219,7 +219,7 @@ public class MysqlChecker {
                     ('taboo', 'close'),
                     ('upload', 'open'),
                     ('register', 'open'),
-                    ('version', '2.1.2'),
+                    ('version', '2.3.2-B21'),
                     ('welcome', 'open'),
                     ('download', '无'),
                     ('ai_url', 'https://api.ppinfra.com/v3/openai/chat/completions'),

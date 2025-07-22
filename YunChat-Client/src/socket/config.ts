@@ -33,10 +33,10 @@ export default {
         appVersion: '2.3.2-B21',
         authorName: 'yichen9247',
         demoUrl: 'https://im.yunair.cn',
+        appDoc: 'https://doc.im.xiaokolomi.cn',
         author: 'https://github.com/yichen9247',
-        appDoc: 'https://doc.handsock.xiaokolomi.cn',
         github: 'https://github.com/yichen9247/YunChat',
-        appDownload: 'https://doc.handsock.xiaokolomi.cn/apk/app-release.apk',
+        appDownload: 'https://doc.im.xiaokolomi.cn/apk/app-release.apk',
         description: "YunChat是一款有趣且开源的聊天应用，基于 Springboot、Vite、TypeScript、Redis、Socket.IO、Kotlin等技术开发",
     }
 }
