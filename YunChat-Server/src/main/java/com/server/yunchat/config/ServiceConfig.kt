@@ -7,6 +7,7 @@ import com.corundumstudio.socketio.store.RedissonStoreFactory
 import com.server.yunchat.builder.props.YunChatProps
 import com.server.yunchat.builder.utils.ConsoleUtils
 import com.server.yunchat.builder.utils.GlobalService
+import com.server.yunchat.service.impl.AuthServiceImpl
 import com.server.yunchat.socket.SocketIOListener
 import org.redisson.api.RedissonClient
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,6 +19,7 @@ import kotlin.system.exitProcess
 open class ServiceConfig @Autowired constructor(
     private val yunChatProps: YunChatProps,
     private val redissonClient: RedissonClient,
+    private val authServiceImpl: AuthServiceImpl,
     private val socketIOListener: SocketIOListener
 ) {
     private val config = com.corundumstudio.socketio.Configuration().apply {
@@ -31,16 +33,8 @@ open class ServiceConfig @Autowired constructor(
         pingTimeout = yunChatProps.pingTimeout
         pingInterval = yunChatProps.pingInterval
         upgradeTimeout = yunChatProps.upgradeTimeout
-        authorizationListener = AuthorizationListener { data ->
-            val origin = data.httpHeaders.get("Origin")
-            val agent = data.httpHeaders.get("User-Agent")
-            val allowedOrigins = setOf(
-                yunChatProps.origin,
-                "https://tauri.localhost" // 桌面端Tauri支持
-            )
-            if (allowedOrigins.contains(origin) || agent.equals("okhttp/4.12.0")) {
-                AuthorizationResult.SUCCESSFUL_AUTHORIZATION
-            } else AuthorizationResult.FAILED_AUTHORIZATION
+        authorizationListener = AuthorizationListener {
+            authServiceImpl.validSocketAuthorization(it)
         }
         storeFactory = RedissonStoreFactory(redissonClient)
     }

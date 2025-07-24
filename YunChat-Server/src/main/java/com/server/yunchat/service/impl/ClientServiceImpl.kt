@@ -41,16 +41,16 @@ class ClientServiceImpl: ClientService {
      * @param client Socket客户端
      */
     override fun getSocketClientIp(client: SocketIOClient): String {
+        val headers = client.handshakeData.httpHeaders
+        val forwardedFor = headers.get("X-Forwarded-For")
+        if (!forwardedFor.isNullOrBlank()) return forwardedFor.split(",")[0].trim()
+        val realIp = headers.get("X-Real-IP")
+        if (!realIp.isNullOrBlank()) return realIp
         val remoteAddr = client.remoteAddress
-        if (remoteAddr is InetSocketAddress) {
-            return remoteAddr.address?.hostAddress ?: remoteAddr.hostString
-        }
-        val addrStr = remoteAddr.toString().substring(1)
-        return if (addrStr.startsWith("[")) { // IPv6
-            val endIndex = addrStr.indexOf(']')
-            if (endIndex != -1) addrStr.substring(1, endIndex) else addrStr
-        } else addrStr.substringBeforeLast(':') // IPv4
+        if (remoteAddr is InetSocketAddress) return remoteAddr.address?.hostAddress ?: remoteAddr.hostString
+        return "unknown"
     }
+
 
     /**
      * @name 获取Socket客户端版本

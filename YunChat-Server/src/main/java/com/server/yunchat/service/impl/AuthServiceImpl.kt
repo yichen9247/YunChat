@@ -1,7 +1,10 @@
 package com.server.yunchat.service.impl
 
+import com.corundumstudio.socketio.AuthorizationResult
+import com.corundumstudio.socketio.HandshakeData
 import com.server.yunchat.admin.service.ServerSystemService
 import com.server.yunchat.builder.dao.GroupDao
+import com.server.yunchat.builder.props.YunChatProps
 import com.server.yunchat.builder.types.SendType
 import com.server.yunchat.builder.types.UserAuthType
 import com.server.yunchat.client.dao.ClientUserDao
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service
 @Service
 class AuthServiceImpl @Autowired constructor(
     private val groupDao: GroupDao,
+    private val yunChatProps: YunChatProps,
     private val clientUserDao: ClientUserDao,
     private val redisServiceImpl: RedisServiceImpl,
     private val serverSystemService: ServerSystemService
@@ -96,11 +100,33 @@ class AuthServiceImpl @Autowired constructor(
     }
 
     /**
+     * @name 接口权限状态验证
+     */
+    override fun validSocketAuthorization(data: HandshakeData): AuthorizationResult {
+        // 第一层鉴权
+        val origin = data.httpHeaders.get("Origin")
+        val userAgent = data.httpHeaders.get("User-Agent")
+        return if (!(getClientAllowedOrigins().contains(origin) || userAgent.equals("okhttp/4.12.0"))) {
+            AuthorizationResult.FAILED_AUTHORIZATION
+        } else AuthorizationResult.SUCCESSFUL_AUTHORIZATION
+    }
+
+    /**
      * @name 验证注册开关状态
      */
     override fun validRegisterStatus() {
         if (!serverSystemService.getSystemKeyStatus("register")) {
             throw AuthValidException("注册功能已关闭")
         }
+    }
+
+    /**
+     * @name 获取允许接入域名
+     */
+    override fun getClientAllowedOrigins(): List<String> {
+        return listOf(
+            yunChatProps.origin ?: "",
+            "https://tauri.localhost" // 桌面端Tauri支持
+        )
     }
 }
