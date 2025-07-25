@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">YunChat</string>
+    <string name="app_name">米执IM</string>
     <string name="www_qq_qun">"https://qm.qq.com/q/AKdIXRHMBM"</string>
     <string name="www_author_url">https://github.com/yichen9247</string>
     <string name="update_option">检查到有新版本V%s可以更新，是否立即更新</string>

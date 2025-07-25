@@ -5,7 +5,7 @@ YUNCHAT:
   port: ${YUNCHAT_PORT} # 通信端口
   host: ${YUNCHAT_HOST} # 通信主机
   origin: ${YUNCHAT_ORIGIN} # 跨域设置
-  openapi: ${YUNCHAT_OPENAPI} # 开放接口密钥 https://doc.YUNCHAT.xiaokolomi.cn/depoly/openapi.html
+  openapi: ${YUNCHAT_OPENAPI} # 开放接口密钥 https://doc.im.xiaokolomi.cn/depoly/openapi.html
   secretKey: ${YUNCHAT_SECRET_KEY} # 服务保护密钥（配置为16位长度的字符串）
   storageMod: ${YUNCHAT_STORAGE_MOD} # 存储模式 0:本地 1:腾讯云COS 2: 阿里云OSS
 
