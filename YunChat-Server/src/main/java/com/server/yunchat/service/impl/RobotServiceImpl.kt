@@ -10,6 +10,10 @@ import com.server.yunchat.builder.types.UserAuthType
 import com.server.yunchat.builder.utils.HandUtils
 import com.server.yunchat.client.service.ClientChatService
 import com.server.yunchat.service.RobotService
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -47,8 +51,8 @@ class RobotServiceImpl @Autowired constructor(
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onUserMessage(client: SocketIOClient, uid: Long, obj: Int, tar: Long, content: String) {
-        Thread.sleep(500)
         val data = when(content) {
             commandList[0] -> HELP_COMMANDS
             commandList[1] -> getUserBasicInfo(client, uid)
@@ -58,7 +62,12 @@ class RobotServiceImpl @Autowired constructor(
             commandList[5] -> requestServiceImpl.getBilibiliHotSearch()
             else -> null
         }
-        if (data != null) sendRobotMessage(data, obj, tar, "text")
+        if (data != null) {
+            GlobalScope.launch {
+                delay(500)
+                sendRobotMessage(data, obj, tar, "text")
+            }
+        }
     }
 
     /**

@@ -186,7 +186,7 @@ private fun ChatScreenBody(chatViewModel: ChatViewModel) {
                     message = reversedMessages[index]
                 )
             }
-            item { Spacer(modifier = Modifier.height(10.dp)) }
+            item { Spacer(Modifier.height(10.dp)) }
         }
     } else LoadingFrame()
 }
@@ -341,7 +341,6 @@ private fun ChatScreenFunctionBox(
     onClick: () -> Unit
 ) {
     val color = MaterialTheme.colorScheme.secondary
-
     Column(
         modifier = Modifier
             .size(70.dp)

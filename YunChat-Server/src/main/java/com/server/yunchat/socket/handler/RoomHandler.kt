@@ -5,6 +5,7 @@ import com.server.yunchat.builder.data.ResultModel
 import com.server.yunchat.builder.data.SocketMsgRoomModel
 import com.server.yunchat.builder.data.SocketRoomModel
 import com.server.yunchat.builder.utils.HandUtils.handleResultByCode
+import com.server.yunchat.builder.utils.ResultUtils
 import com.server.yunchat.client.service.ClientGroupService
 import com.server.yunchat.service.impl.GroupServiceImpl
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,7 +26,7 @@ class RoomHandler @Autowired constructor(
 
     fun handleLeaveRoom(data: SocketRoomModel, client: SocketIOClient): ResultModel {
         if (data.type.isNullOrEmpty() || data.data == null) {
-            return handleResultByCode(HttpStatus.BAD_REQUEST, null, "缺少参数")
+            return ResultUtils.printParamMessage()
         }
 
         return when (data.type) {
@@ -36,7 +37,7 @@ class RoomHandler @Autowired constructor(
 
     fun handleJoinRoom(uid: Long, data: SocketRoomModel, client: SocketIOClient): ResultModel {
         if (data.type.isNullOrEmpty() || data.data == null) {
-            return handleResultByCode(HttpStatus.BAD_REQUEST, null, "参数检验失败")
+            return ResultUtils.printParamMessage()
         }
 
         return when (data.type) {
@@ -47,7 +48,7 @@ class RoomHandler @Autowired constructor(
 
     fun handleJoinMsgRoom(uid: Long, data: SocketMsgRoomModel, client: SocketIOClient): ResultModel {
         if (data.type.isNullOrEmpty() || data.list.isNullOrEmpty()) {
-            return handleResultByCode(HttpStatus.BAD_REQUEST, null, "参数检验失败")
+            return ResultUtils.printParamMessage()
         }
 
         return when (data.type) {
@@ -58,7 +59,7 @@ class RoomHandler @Autowired constructor(
 
     fun handleLeaveMsgRoom(data: SocketMsgRoomModel, client: SocketIOClient): ResultModel {
         if (data.type.isNullOrEmpty() || data.list.isNullOrEmpty()) {
-            return handleResultByCode(HttpStatus.BAD_REQUEST, null, "参数检验失败")
+            return ResultUtils.printParamMessage()
         }
 
         return when (data.type) {

@@ -17,6 +17,8 @@ class ClientChatService @Autowired constructor(
     private val chatServiceImpl: ChatServiceImpl
 ) {
     fun sendChatMessage(uid: Long, content: String, message: SocketSendMessage): ResultModel {
+        val allowType = listOf("file", "text", "image", "video", "invite")
+        if (!allowType.contains(message.type)) return HandUtils.handleResultByCode(HttpStatus.BAD_REQUEST, null,"不支持的消息类型")
         return try {
             val messageModel = MessageModel()
             val result = chatServiceImpl.setMessageModel(uid, content, message, messageModel)
